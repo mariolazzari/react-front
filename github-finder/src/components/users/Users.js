@@ -11,7 +11,7 @@ const Users = ({ users, loading }) => {
   return (
     <div style={userStyle}>
       {users.map(user => (
-        <UserItem user={user} />
+        <UserItem key={user.id} user={user} />
       ))}
     </div>
   );
