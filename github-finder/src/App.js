@@ -10,15 +10,26 @@ class App extends Component {
     loading: false
   };
 
-  async componentDidMount() {
-    this.setState({ loading: true });
-    const res = await axios.get("https://api.github.com/users");
-    console.log(res.data);
-    this.setState({ users: res.data, loading: false });
+  loadUsers = async () => {
+    const { REACT_APP_GITHUB_CLIENT_ID, REACT_APP_GITHUB_SECRET } = process.env;
+    const api = `https://api.github.com/users?client_id=${REACT_APP_GITHUB_CLIENT_ID}&client_secret=${REACT_APP_GITHUB_SECRET}`;
+
+    try {
+      this.setState({ loading: true });
+      const res = await axios.get(api);
+      this.setState({ users: res.data, loading: false });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  componentDidMount() {
+    this.loadUsers();
   }
 
   render() {
     const { users, loading } = this.state;
+
     return (
       <div className="App">
         <Navbar />
