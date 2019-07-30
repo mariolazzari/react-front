@@ -4,8 +4,7 @@ import Spinner from "../layout/Spinner";
 import GithubContext from "../../context/github/githubContext";
 
 const Users = () => {
-  const githubContext = useContext(GithubContext);
-  const { users, loading } = githubContext;
+  const { users, loading } = useContext(GithubContext);
 
   if (loading) {
     return <Spinner />;

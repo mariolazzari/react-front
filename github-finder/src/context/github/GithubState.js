@@ -29,8 +29,6 @@ const GithubState = props => {
       setLoading();
       const res = await axios.get(api);
       dispatch({ type: SEARCH_USERS, payload: res.data.items });
-
-      console.log(dispatch);
     } catch (error) {
       console.log(error);
     }
