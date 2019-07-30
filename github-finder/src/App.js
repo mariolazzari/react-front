@@ -1,52 +1,37 @@
-import React, { useState, Fragment } from "react";
+import React from "react";
 import "./App.css";
 import Navbar from "./components/layout/Navbar";
-import Users from "./components/users/Users";
 
 import GithubState from "./context/github/GithubState";
+import AlertState from "./context/alert/AlertState";
 
-import Search from "./components/users/Search";
 import Alert from "./components/layout/Alert";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import About from "./components/pages/About";
 import User from "./components/users/User";
+import Home from "./components/pages/Home";
+import NotFound from "./components/pages/NotFound";
 
 const App = () => {
-  const [alert, setAlert] = useState(null);
-
-  const showAlert = (msg, type) => {
-    setAlert({ msg, type });
-    setTimeout(() => {
-      this.setState({ alert: null });
-    }, 5000);
-  };
-
   return (
-    <GithubState>
-      <Router>
-        <div className="App">
-          <Navbar />
-          <div className="container">
-            <Alert alert={alert} />
-            <Switch>
-              <Route
-                path="/"
-                exact
-                render={props => (
-                  <Fragment>
-                    <Search setAlert={showAlert} />
-                    <Users />
-                  </Fragment>
-                )}
-              />
-
-              <Route path="/about" component={About} />
-              <Route path="/user/:login" component={User} />
-            </Switch>
+    <AlertState>
+      <GithubState>
+        <Router>
+          <div className="App">
+            <Navbar />
+            <div className="container">
+              <Alert />
+              <Switch>
+                <Route path="/" exact component={Home} />
+                <Route path="/about" component={About} />
+                <Route path="/user/:login" component={User} />
+                <Route component={NotFound} />
+              </Switch>
+            </div>
           </div>
-        </div>
-      </Router>
-    </GithubState>
+        </Router>
+      </GithubState>
+    </AlertState>
   );
 };
 
