@@ -2,7 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import ContactContext from "../../context/contact/contactContext";
 
 const ContactForm = () => {
-  const { addContact, current } = useContext(ContactContext);
+  const { addContact, current, clearCurrent, updateContact } = useContext(
+    ContactContext
+  );
 
   useEffect(() => {
     if (current) {
@@ -33,7 +35,18 @@ const ContactForm = () => {
 
   const onSubmit = e => {
     e.preventDefault();
-    addContact(contact);
+    if (current) {
+      // update contact
+      updateContact(contact);
+    } else {
+      // add new cotnact
+      addContact(contact);
+    }
+    clearAll();
+  };
+
+  const clearAll = () => {
+    clearCurrent();
   };
 
   return (
@@ -84,6 +97,17 @@ const ContactForm = () => {
           {current ? "Edit" : "Add"}
         </button>
       </div>
+      {current && (
+        <div>
+          <button
+            type="submit"
+            onClick={clearAll}
+            className="btn btn-light btn-block"
+          >
+            Clear
+          </button>
+        </div>
+      )}
     </form>
   );
 };
