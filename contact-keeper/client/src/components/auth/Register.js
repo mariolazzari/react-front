@@ -1,12 +1,14 @@
 import React, { useState, useContext } from "react";
 import AlertContext from "../../context/alert/alertContext";
-import AuthContext from "../../context/auth/authContext";
+//import AuthContext from "../../context/auth/authContext";
 
 const Register = () => {
   const { setAlert } = useContext(AlertContext);
+  /*
   const { register, error, clearErrors, isAuthenticated } = useContext(
     AuthContext
   );
+  */
 
   const [user, setUser] = useState({
     name: "",
