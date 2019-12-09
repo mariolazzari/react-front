@@ -16,8 +16,8 @@ const Contacts = () => {
     <Fragment>
       <TransitionGroup>
         {items.map(contact => (
-          <CSSTransition key={contact.id} timeout={500} classNames="item">
-            <ContactItem contact={contact} key={contact.id} />
+          <CSSTransition key={contact._id} timeout={500} classNames="item">
+            <ContactItem contact={contact} key={contact._id} />
           </CSSTransition>
         ))}
       </TransitionGroup>
