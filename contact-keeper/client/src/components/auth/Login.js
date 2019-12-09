@@ -1,18 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import AlertContext from "../../context/alert/alertContext";
+import AuthContext from "../../context/auth/authContext";
 
-const Login = () => {
+// component
+const Login = props => {
+  const { setAlert } = useContext(AlertContext);
+  const { loginUser, error, clearErrors, isAuthenticated } = useContext(
+    AuthContext
+  );
   const [user, setUser] = useState({
     email: "",
     password: ""
   });
-
   const { email, password } = user;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push("/");
+    }
+
+    console.log("error", error);
+
+    if (error === "Invalid credentials") {
+      setAlert(error, "danger");
+      clearErrors();
+    }
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log("register submit");
+    if (email === "" || password === "") {
+      setAlert("Please fill all fields", "danger");
+    } else {
+      loginUser({ email, password });
+    }
   };
 
   return (
