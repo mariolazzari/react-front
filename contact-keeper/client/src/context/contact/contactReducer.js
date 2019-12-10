@@ -1,4 +1,5 @@
 import {
+  GET_CONTACTS,
   ADD_CONTACT,
   DELETE_CONTACT,
   SET_CURRENT,
@@ -6,18 +7,27 @@ import {
   UPDATE_CONTACT,
   FILTER_CONTACTS,
   CLEAR_FILTER,
-  CONTACT_ERROR
+  CONTACT_ERROR,
+  CLEAR_CONTACTS
 } from "../types";
 
 export default (state, action) => {
   switch (action.type) {
+    case GET_CONTACTS:
+      return { ...state, contacts: action.payload, loading: false };
+
     case ADD_CONTACT:
-      return { ...state, contacts: [...state.contacts, action.payload] };
+      return {
+        ...state,
+        contacts: [action.payload, ...state.contacts],
+        loading: false
+      };
 
     case DELETE_CONTACT:
       return {
         ...state,
-        contacts: state.contacts.filter(c => c.id !== action.payload)
+        contacts: state.contacts.filter(c => c._id !== action.payload),
+        loading: false
       };
 
     case SET_CURRENT:
@@ -27,11 +37,14 @@ export default (state, action) => {
       return { ...state, current: null };
 
     case UPDATE_CONTACT:
+      console.log("payload", action.payload);
+
       return {
         ...state,
         contacts: state.contacts.map(contact =>
-          contact.id === action.payload.id ? action.payload : contact
-        )
+          contact._id === action.payload._id ? action.payload : contact
+        ),
+        loading: false
       };
 
     case FILTER_CONTACTS:
@@ -40,7 +53,8 @@ export default (state, action) => {
         filtered: state.contacts.filter(contact => {
           const regex = new RegExp(`${action.payload}`, "gi");
           return contact.name.match(regex) || contact.email.match(regex);
-        })
+        }),
+        loading: false
       };
 
     case CLEAR_FILTER:
@@ -48,6 +62,15 @@ export default (state, action) => {
 
     case CONTACT_ERROR:
       return { ...state, error: action.payload };
+
+    case CLEAR_CONTACTS:
+      return {
+        ...state,
+        contacts: null,
+        filterd: null,
+        error: null,
+        current: null
+      };
 
     default:
       return state;
