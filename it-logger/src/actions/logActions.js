@@ -42,10 +42,6 @@ export const getLogs = () => async dispatch => {
     setLoading();
     const res = await fetch("/logs");
     const data = await res.json();
-
-    if (!data) return;
-    console.log("data", data);
-
     dispatch({ type: GET_LOGS, payload: data });
   } catch (error) {
     dispatch({ type: LOGS_ERROR, payload: error.response.data });
@@ -70,6 +66,8 @@ export const addLog = log => async dispatch => {
 
 // delete log
 export const deleteLog = id => async dispatch => {
+  console.log("delete log");
+
   try {
     setLoading();
     await fetch(`/logs/${id}`, {

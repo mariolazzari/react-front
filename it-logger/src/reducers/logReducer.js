@@ -32,6 +32,8 @@ export default (state = initialState, action) => {
       };
 
     case DELETE_LOG:
+      console.log("payload", action.payload);
+
       return {
         ...state,
         loading: false,

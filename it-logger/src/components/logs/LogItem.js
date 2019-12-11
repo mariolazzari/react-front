@@ -5,9 +5,9 @@ import { deleteLog, setCurrent } from "../../actions/logActions";
 import M from "materialize-css/dist/js/materialize.min.js";
 import Moment from "react-moment";
 
-const LogItem = ({ log }) => {
+const LogItem = ({ log, deleteLog, setCurrent }) => {
   // on delete click event handler
-  const onDelete = () => {
+  const onDelete = e => {
     deleteLog(log.id);
     M.toast({ html: "Log deleted" });
   };
