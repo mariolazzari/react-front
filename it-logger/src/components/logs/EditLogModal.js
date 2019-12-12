@@ -12,9 +12,10 @@ const EditLogModal = ({ current, updateLog }) => {
 
   useEffect(() => {
     if (current) {
-      setMessage(current.message);
-      setAttention(current.attention);
-      setTech(current.tech);
+      const { message, attention, tech } = current;
+      setMessage(message);
+      setAttention(attention);
+      setTech(tech);
     }
   }, [current]);
 
@@ -22,16 +23,18 @@ const EditLogModal = ({ current, updateLog }) => {
     if (message === "" || tech === "") {
       M.toast({ html: "Please enter a message and tech" });
     } else {
+      // log id
+      const { id } = current;
+      // log to update
       const updLog = {
-        id: current.id,
+        id,
         message,
         attention,
         tech,
         date: new Date()
       };
-
       updateLog(updLog);
-      M.toast({ html: `Log updated by ${tech}` });
+      M.toast({ html: `Log ${id} updated by ${tech}.` });
 
       // Clear Fields
       setMessage("");
@@ -102,18 +105,26 @@ const EditLogModal = ({ current, updateLog }) => {
   );
 };
 
+// modal styles
 const modalStyle = {
   width: "75%",
   height: "75%"
 };
 
+// mandatory props
 EditLogModal.propTypes = {
   current: PropTypes.object,
   updateLog: PropTypes.func.isRequired
 };
 
+// map state
 const mapStateToProps = state => ({
   current: state.log.current
 });
 
-export default connect(mapStateToProps, { updateLog })(EditLogModal);
+// map dispatch
+const mapDispatchToprops = {
+  updateLog
+};
+
+export default connect(mapStateToProps, mapDispatchToprops)(EditLogModal);

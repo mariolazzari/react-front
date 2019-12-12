@@ -6,23 +6,18 @@ import {
   DELETE_LOG,
   UPDATE_LOG,
   SET_CURRENT,
-  CLEAR_CURRENT
+  CLEAR_CURRENT,
+  SEARCH_LOGS
 } from "./types";
 
 // set loading
-export const setLoading = () => {
-  return { type: SET_LOADING };
-};
+export const setLoading = () => ({ type: SET_LOADING });
 
 // set current log
-export const setCurrent = log => {
-  return { type: SET_CURRENT, payload: log };
-};
+export const setCurrent = log => ({ type: SET_CURRENT, payload: log });
 
 // clear current log
-export const clearCurrent = () => {
-  return { type: CLEAR_CURRENT };
-};
+export const clearCurrent = () => ({ type: CLEAR_CURRENT });
 
 // get all logs (original version)
 /*
@@ -66,8 +61,6 @@ export const addLog = log => async dispatch => {
 
 // delete log
 export const deleteLog = id => async dispatch => {
-  console.log("delete log");
-
   try {
     setLoading();
     await fetch(`/logs/${id}`, {
@@ -92,5 +85,17 @@ export const updateLog = log => async dispatch => {
     dispatch({ type: UPDATE_LOG, payload: data });
   } catch (error) {
     dispatch({ type: LOGS_ERROR, payload: error.response.statusText });
+  }
+};
+
+// search logs
+export const serachLogs = text => async dispatch => {
+  try {
+    setLoading();
+    const res = await fetch(`/logs?q=${text}`);
+    const data = await res.json();
+    dispatch({ type: SEARCH_LOGS, payload: data });
+  } catch (error) {
+    dispatch({ type: LOGS_ERROR, payload: error.response.data });
   }
 };
