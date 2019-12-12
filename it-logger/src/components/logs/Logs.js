@@ -30,12 +30,19 @@ const Logs = ({ log: { logs, loading }, getLogs }) => {
   );
 };
 
+// map state
 const mapStateToProps = state => ({
   log: state.log
 });
 
+// map dispatch
+const mapDispatchToProps = {
+  getLogs
+};
+
+// mandatory props
 Logs.propTypes = {
   log: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, { getLogs })(Logs);
+export default connect(mapStateToProps, mapDispatchToProps)(Logs);
