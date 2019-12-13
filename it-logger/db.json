@@ -32,8 +32,8 @@
       "id": 5,
       "message": "Test Mario",
       "attention": false,
-      "tech": "mario",
-      "date": "2019-12-12T07:35:37.214Z"
+      "tech": "Mario Lazzari",
+      "date": "2019-12-13T21:39:01.801Z"
     }
   ],
   "techs": [
@@ -51,6 +51,11 @@
       "id": 3,
       "firstName": "Sara",
       "lastName": "Wilson"
+    },
+    {
+      "firstName": "Mario",
+      "lastName": "Lazzari",
+      "id": 4
     }
   ]
 }
